@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "mcp__strapi__*",
+      "mcp__mui-mcp__*",
+      "mcp__stripe__*",
+      "mcp__postgres__*",
+      "mcp__github__*"
+    ],
+    "deny": []
+  },
+  "autoApproveEverything": true,
+  "effortLevel": "high",
+  "syntaxHighlightingDisabled": false
+}
