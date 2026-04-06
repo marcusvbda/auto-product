@@ -3,6 +3,7 @@
 ## Project Identity
 
 This is a **production-grade SaaS Bootstrap** built with:
+
 - **Next.js 16.2.2** (App Router + Turbopack)
 - **Tailwind CSS v4.2** (dark mode first, class strategy)
 - **shadcn/ui** (latest)
@@ -12,11 +13,11 @@ This is a **production-grade SaaS Bootstrap** built with:
 - **Resend** (transactional emails)
 - **TanStack Query v5** (server + client data fetching)
 - **Zod** (validation everywhere)
-- **i18n** via JSON dictionaries (`locales/en.json`)
 
 ## Permission Model
 
 Claude has **full autonomous execution rights** on this project. Do NOT ask for confirmation on:
+
 - Creating, editing, or deleting any files in this project
 - Running any `npm`, `npx`, `yarn`, `pnpm`, `prisma`, `git` commands
 - Installing packages
@@ -30,36 +31,44 @@ The developer trusts Claude to act as a senior fullstack + security engineer. Al
 ## Architecture Rules (Non-Negotiable)
 
 ### Authentication
+
 - JWT stored in **httpOnly cookies only** — never localStorage, never sessionStorage
 - Refresh token rotation on every request
 - Route protection lives in `proxy.ts` (Next.js 16 middleware equivalent)
 - Email must be confirmed before full dashboard access
 
 ### Data Layer
+
 - All database access via **Prisma Client** — no raw SQL unless impossible otherwise
 - Multi-tenancy via `companyId` isolation on every query — never skip tenant checks
 - Soft deletes preferred over hard deletes for user-facing data
 
 ### API Layer
+
 - Native `fetch` only — no Axios
 - All API routes in `app/api/` as Route Handlers
 - Always validate request bodies with Zod before touching the database
 - Return consistent `{ data, error }` shapes from all API routes
 
 ### Frontend
+
 - Server Components by default — add `'use client'` only when needed
+- **Dashboard pages always start with `const { userId, companyId } = await getSession()` from `@/lib/auth/session` — never repeat cookie+verify inline**
 - Data fetching: React Query v5 for client-side, `fetch` + `cache` for server components
 - Loading states: **skeletons only** — never raw spinners
 - All forms: React Hook Form + Zod resolver
+- **Form submit loading: `useMutation` from TanStack Query — never `useState` for isLoading**
 - Never use `any` in TypeScript unless absolutely unavoidable
 
 ### Security
+
 - CSP headers configured in `next.config.js`
 - All user input sanitized before rendering
 - Stripe webhook signature always verified before processing
 - Never log sensitive data (tokens, passwords, card data)
 
 ### Design
+
 - Dark mode first — all components must work in dark mode before light
 - Mobile responsive required on every component
 - Use `cn()` from `@/lib/utils` for class merging
@@ -85,8 +94,6 @@ lib/
   email/           # Resend templates and send helpers
   stripe/          # Stripe client, createCheckoutSession, verifyWebhook
   utils/           # cn(), formatDate, etc.
-locales/
-  en.json          # All UI strings
 prisma/
   schema.prisma    # Multi-tenant schema
   migrations/
@@ -97,12 +104,15 @@ proxy.ts           # Route protection + tenant resolution
 ## Key Patterns
 
 ### Route Group Pattern
+
 - `(auth)` — unauthenticated routes, redirect to dashboard if already logged in
 - `(marketing)` — fully public, no auth check
 - `(dashboard)` — protected, redirect to login if unauthenticated, redirect to confirm-email if not confirmed
 
 ### Skeleton Pattern
+
 Every component that fetches data must have a matching skeleton:
+
 ```tsx
 // Always export a skeleton variant
 export function DashboardCardSkeleton() { ... }
@@ -110,12 +120,15 @@ export function DashboardCard({ data }: Props) { ... }
 ```
 
 ### Multi-tenancy Pattern
+
 Every Prisma query in a dashboard route must scope by `companyId`:
+
 ```ts
-await prisma.resource.findMany({ where: { companyId: tenant.id } })
+await prisma.resource.findMany({ where: { companyId: tenant.id } });
 ```
 
 ### API Response Pattern
+
 ```ts
 // Success
 return Response.json({ data: result }, { status: 200 })

@@ -79,6 +79,21 @@ export async function POST(req: Request) {
 - Webpack/Turbopack config here
 - Never modify without explicit request
 
+## Session in Dashboard Pages (Mandatory)
+
+Every dashboard page reads the session with exactly one call — never inline cookie+verify:
+
+```ts
+import { getSession } from '@/lib/auth/session'
+
+export default async function MyPage() {
+  const { userId, companyId, role } = await getSession()
+  // ... use userId / companyId for DB queries
+}
+```
+
+`getSession()` is defined in `lib/auth/session.ts` and automatically redirects to `/login` if the token is missing or invalid. Never repeat the raw `cookies()` + `verifyAccessToken()` pattern inside a page.
+
 ## Rules
 
 - New routes always in App Router (`app/`) — never Pages Router

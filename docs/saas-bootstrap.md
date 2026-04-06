@@ -17,19 +17,19 @@ Start a new SaaS in under 1 hour with a solid, production-ready, and secure foun
 
 ## Tech Stack (Fixed & Recommended)
 
-| Layer                | Technology                          | Version      | Notes                                      |
-|----------------------|-------------------------------------|--------------|--------------------------------------------|
-| Framework            | Next.js                             | 16.2.2       | App Router + Turbopack                     |
-| Styling              | Tailwind CSS                        | v4.2         | Dark mode first                            |
-| UI Components        | shadcn/ui                           | latest       | Fully customizable                         |
-| Database             | PostgreSQL + Prisma ORM             | latest       | Local first, easy to move to any cloud     |
-| Validation           | Zod                                 | latest       | Forms and API validation                   |
-| Data Fetching        | TanStack Query (React Query) v5     | latest       | Server & client fetching                   |
-| Authentication       | Custom JWT + httpOnly cookies       | -            | Never use localStorage                     |
-| Payments             | Stripe (Embedded Checkout)          | latest       | Configurable via .env                      |
-| Emails               | Resend                              | latest       | Transactional emails + templates           |
-| HTTP Client          | Native `fetch`                      | -            | No Axios                                   |
-| Internationalization | Simple JSON dictionaries            | -            | English by default, easy to extend         |
+| Layer                | Technology                      | Version | Notes                                  |
+| -------------------- | ------------------------------- | ------- | -------------------------------------- |
+| Framework            | Next.js                         | 16.2.2  | App Router + Turbopack                 |
+| Styling              | Tailwind CSS                    | v4.2    | Dark mode first                        |
+| UI Components        | shadcn/ui                       | latest  | Fully customizable                     |
+| Database             | PostgreSQL + Prisma ORM         | latest  | Local first, easy to move to any cloud |
+| Validation           | Zod                             | latest  | Forms and API validation               |
+| Data Fetching        | TanStack Query (React Query) v5 | latest  | Server & client fetching               |
+| Authentication       | Custom JWT + httpOnly cookies   | -       | Never use localStorage                 |
+| Payments             | Stripe (Embedded Checkout)      | latest  | Configurable via .env                  |
+| Emails               | Resend                          | latest  | Transactional emails + templates       |
+| HTTP Client          | Native `fetch`                  | -       | No Axios                               |
+| Internationalization | Simple JSON dictionaries        | -       | English by default, easy to extend     |
 
 ---
 
@@ -48,6 +48,7 @@ Start a new SaaS in under 1 hour with a solid, production-ready, and secure foun
 ## Included Features
 
 ### Public / Marketing Area
+
 - Landing page (`/`) – clean hero, features, and pricing teaser
 - Login, Register, Forgot Password
 - Email confirmation flow
@@ -55,6 +56,7 @@ Start a new SaaS in under 1 hour with a solid, production-ready, and secure foun
 - Clear links to login/register from landing
 
 ### Authenticated Dashboard Area
+
 - Protected layout with Sidebar + Navbar
 - Minimal dashboard home (ready for your features)
 - Profile page:
@@ -67,6 +69,7 @@ Start a new SaaS in under 1 hour with a solid, production-ready, and secure foun
   - Tenant isolation via proxy
 
 ### Authentication
+
 - Email + password signup/login
 - Social login (Google, GitHub, etc.) – configurable in `.env`
 - JWT stored in **httpOnly cookies**
@@ -75,7 +78,7 @@ Start a new SaaS in under 1 hour with a solid, production-ready, and secure foun
 - Email confirmation required before full access
 
 ### Other Ready Features
-- i18n structure (`locales/en.json`) – add new languages easily
+
 - Reusable custom hooks (`useDebounce`, `useTenant`, `useAuth`, etc.)
 - Well-separated, reusable components
 - Good (but not over-engineered) TypeScript typing
@@ -106,8 +109,6 @@ Start a new SaaS in under 1 hour with a solid, production-ready, and secure foun
 │   ├── email/                  # Resend templates & sender
 │   ├── stripe/                 # Stripe client & helpers
 │   └── utils/
-├── locales/
-│   └── en.json                 # Translation dictionary
 ├── prisma/
 │   ├── schema.prisma           # Multi-tenant models
 │   └── migrations/
@@ -119,3 +120,4 @@ Start a new SaaS in under 1 hour with a solid, production-ready, and secure foun
 ├── tailwind.config.ts
 ├── components.json             # shadcn config
 └── SAAS-BOOTSTRAP.md           # This file
+```

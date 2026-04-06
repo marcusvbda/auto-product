@@ -92,6 +92,35 @@ interface UserCardProps {
 - Global errors via `error.tsx` (Next.js error boundary)
 - Toast notifications for user-facing action feedback
 
+## Form Submit Pattern (Mandatory)
+
+**Always use `useMutation` for form submit handlers — never `useState` for loading.**
+
+```tsx
+const mutation = useMutation({
+  mutationFn: async (data: FormData) => {
+    const res = await fetch('/api/...', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    const json = await res.json()
+    if (!res.ok) throw new Error(json.error ?? 'Failed')
+    return json
+  },
+  onSuccess: () => toast.success('Done'),
+  onError: (err) => toast.error(err.message),
+})
+
+<form onSubmit={handleSubmit((data) => mutation.mutate(data))}>
+  <Button disabled={mutation.isPending}>
+    {mutation.isPending ? 'Saving...' : 'Save'}
+  </Button>
+```
+
+Use `mutation.isPending` (not a local state variable) to disable the button and show loading text.
+UI-only state (e.g. `open`, `step`, `sent`) still uses `useState`. Only async/loading state uses `useMutation`.
+
 ## Rules
 
 - No Axios — use native `fetch`
