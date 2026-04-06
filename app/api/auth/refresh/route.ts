@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { verifyRefreshToken, createAccessToken, createRefreshToken } from '@/lib/auth/tokens'
 import { setAuthCookies, AUTH_COOKIES } from '@/lib/auth/cookies'
 import { prisma } from '@/lib/db'
-import { hashToken, generateToken } from '@/lib/auth/password'
+import { hashToken } from '@/lib/auth/password'
 import { cookies } from 'next/headers'
 
 export async function POST() {

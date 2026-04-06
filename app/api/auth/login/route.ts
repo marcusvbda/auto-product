@@ -4,7 +4,7 @@ import { prisma } from '@/lib/db'
 import { verifyPassword } from '@/lib/auth/password'
 import { createAccessToken, createRefreshToken } from '@/lib/auth/tokens'
 import { setAuthCookies } from '@/lib/auth/cookies'
-import { hashToken, generateToken } from '@/lib/auth/password'
+import { hashToken } from '@/lib/auth/password'
 
 const schema = z.object({
   email: z.string().email(),
@@ -49,7 +49,6 @@ export async function POST(req: Request) {
     createRefreshToken({ userId: user.id }),
   ])
 
-  const rawRefresh = generateToken()
   const refreshHash = hashToken(refreshToken)
   await prisma.refreshToken.create({
     data: {

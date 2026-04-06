@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db'
 import { hashToken } from '@/lib/auth/password'
 import { cookies } from 'next/headers'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function POST(req: Request) {
   const cookieStore = await cookies()
   const refreshToken = cookieStore.get(AUTH_COOKIES.REFRESH)?.value

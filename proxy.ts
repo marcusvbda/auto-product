@@ -2,27 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyAccessToken, verifyRefreshToken, createAccessToken } from '@/lib/auth/tokens'
 import { AUTH_COOKIES } from '@/lib/auth/cookies'
 
-const PUBLIC_PATHS = [
-  '/',
-  '/login',
-  '/register',
-  '/forgot-password',
-  '/reset-password',
-  '/invite',
-  '/api/auth/',
-  '/api/stripe/webhook',
-  '/_next/',
-  '/favicon.ico',
-]
-
 const AUTH_ONLY_PATHS = ['/login', '/register', '/forgot-password']
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  const isPublic = PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(p))
   const isAuthOnly = AUTH_ONLY_PATHS.some((p) => pathname === p || pathname.startsWith(p))
-  const isDashboard = pathname.startsWith('/dashboard')
+  const isDashboard = pathname.startsWith('/app')
   const isOnboarding = pathname.startsWith('/onboarding')
 
   const accessToken = req.cookies.get(AUTH_COOKIES.ACCESS)?.value
@@ -83,7 +69,7 @@ export async function proxy(req: NextRequest) {
 
   // Redirect logged-in users away from login/register pages
   if (isAuthenticated && isAuthOnly) {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+    return NextResponse.redirect(new URL('/app', req.url))
   }
 
   // Require auth for dashboard and onboarding
@@ -111,7 +97,7 @@ export async function proxy(req: NextRequest) {
 
       // If already has a company, skip onboarding
       if (hasCompany && isOnboarding) {
-        return NextResponse.redirect(new URL('/dashboard', req.url))
+        return NextResponse.redirect(new URL('/app', req.url))
       }
     } catch {
       // DB error — allow through

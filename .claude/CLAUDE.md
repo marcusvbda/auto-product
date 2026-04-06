@@ -80,7 +80,7 @@ The developer trusts Claude to act as a senior fullstack + security engineer. Al
 app/
   (auth)/          # Login, Register, Forgot Password, Confirm Email
   (marketing)/     # Landing page, Pricing teaser
-  (dashboard)/     # Protected area — all requires auth + email confirmed
+  (protected)/     # Protected area — all requires auth + email confirmed
   api/             # Route Handlers only
 components/
   ui/              # shadcn components (generated, minimal modifications)
@@ -107,7 +107,7 @@ proxy.ts           # Route protection + tenant resolution
 
 - `(auth)` — unauthenticated routes, redirect to dashboard if already logged in
 - `(marketing)` — fully public, no auth check
-- `(dashboard)` — protected, redirect to login if unauthenticated, redirect to confirm-email if not confirmed
+- `(protected)` — protected, redirect to login if unauthenticated, redirect to confirm-email if not confirmed
 
 ### Skeleton Pattern
 

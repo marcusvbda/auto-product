@@ -94,7 +94,7 @@ Start a new SaaS in under 1 hour with a solid, production-ready, and secure foun
 ├── app/
 │   ├── (auth)/                 # Public auth routes
 │   ├── (marketing)/            # Landing pages
-│   ├── (dashboard)/            # Protected area with shared layout
+│   ├── (protected)/            # Protected area with shared layout
 │   ├── api/                    # Route Handlers (Stripe webhook, etc.)
 │   └── globals.css
 ├── components/
