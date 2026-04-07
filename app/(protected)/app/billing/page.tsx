@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
 import { PLANS, type PlanKey } from '@/lib/stripe/plans';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = { title: 'Billing' };
 
@@ -72,7 +73,10 @@ export default async function BillingPage() {
 					([key, plan]) => {
 						const isActive = key === currentPlan;
 						return (
-							<Card key={key} className={isActive ? 'border-primary' : ''}>
+							<Card
+								key={key}
+								className={cn('flex flex-col', { 'border-primary': isActive })}
+							>
 								<CardHeader>
 									<div className="flex items-center justify-between">
 										<CardTitle className="text-base">{plan.name}</CardTitle>
@@ -87,8 +91,8 @@ export default async function BillingPage() {
 										)}
 									</div>
 								</CardHeader>
-								<CardContent>
-									<ul className="space-y-1 mb-4">
+								<CardContent className="flex flex-col flex-1">
+									<ul className="space-y-1 pb-8 mb-auto">
 										{plan.features.map((f) => (
 											<li
 												key={f}
