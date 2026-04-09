@@ -105,6 +105,10 @@ export async function proxy(req: NextRequest) {
   }
 
   const headers = new Headers(req.headers)
+  // Strip potentially spoofed headers from the client before re-setting from verified token
+  headers.delete('x-user-id')
+  headers.delete('x-company-id')
+  headers.delete('x-user-role')
   if (userId) headers.set('x-user-id', userId)
   if (companyId) headers.set('x-company-id', companyId)
   if (role) headers.set('x-user-role', role)

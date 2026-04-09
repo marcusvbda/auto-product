@@ -1,7 +1,5 @@
-import { cookies } from 'next/headers'
+import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { verifyAccessToken } from '@/lib/auth/tokens'
-import { AUTH_COOKIES } from '@/lib/auth/cookies'
 
 export interface Session {
   userId: string
@@ -9,19 +7,16 @@ export interface Session {
   role: string
 }
 
+// Reads session from headers set by proxy.ts (already verified — no re-validation needed).
+// This also handles the case where the access token was just renewed by the middleware,
+// since proxy.ts always writes the verified identity into headers for the current request.
 export async function getSession(): Promise<Session> {
-  const cookieStore = await cookies()
-  const token = cookieStore.get(AUTH_COOKIES.ACCESS)?.value
-  if (!token) redirect('/login')
+  const headerStore = await headers()
+  const userId = headerStore.get('x-user-id')
+  const companyId = headerStore.get('x-company-id')
+  const role = headerStore.get('x-user-role')
 
-  try {
-    const payload = await verifyAccessToken(token)
-    return {
-      userId: payload.userId,
-      companyId: payload.companyId,
-      role: payload.role,
-    }
-  } catch {
-    redirect('/login')
-  }
+  if (!userId || !companyId || !role) redirect('/login')
+
+  return { userId, companyId, role }
 }

@@ -23,7 +23,7 @@ export function setAuthCookies(
     secure: IS_PROD,
     sameSite: 'lax',
     maxAge: 60 * 60 * 24 * 7,
-    path: '/api/auth/refresh',
+    path: '/',
   })
   return response
 }
@@ -33,7 +33,7 @@ export function clearAuthCookies(response: NextResponse) {
   response.cookies.set(AUTH_COOKIES.REFRESH, '', {
     httpOnly: true,
     maxAge: 0,
-    path: '/api/auth/refresh',
+    path: '/',
   })
   return response
 }

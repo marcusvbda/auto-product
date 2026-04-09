@@ -2,37 +2,17 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-	LayoutDashboard,
-	User,
-	CreditCard,
-	Users,
-	Building2,
-	Bell,
-	LogOut,
-} from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-
-const navItems = [
-	{
-		href: '/app',
-		label: 'Dashboard',
-		icon: LayoutDashboard,
-		exact: true,
-	},
-	{ href: '/app/members', label: 'Members', icon: Users },
-	{ href: '/app/notifications', label: 'Notifications', icon: Bell },
-	{ href: '/app/company', label: 'Company', icon: Building2 },
-	{ href: '/app/profile', label: 'Profile', icon: User },
-	{ href: '/app/billing', label: 'Billing', icon: CreditCard },
-];
+import useNavItems from '@/hooks/useNavItems';
 
 export function Sidebar() {
 	const pathname = usePathname();
 	const router = useRouter();
+	const navItems = useNavItems();
 
 	async function handleLogout() {
 		await fetch('/api/auth/logout', { method: 'POST' });
